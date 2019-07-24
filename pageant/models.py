@@ -6,7 +6,7 @@ class Pageant(models.Model):
     title = models.CharField(max_length=255, null=False, blank=False)
     is_closed = models.BooleanField(default=False, null=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 class CriteriaCategory(models.Model):
@@ -14,7 +14,7 @@ class CriteriaCategory(models.Model):
     pageant = models.ForeignKey(Pageant)
     weight = models.FloatField(null=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class Criteria(models.Model):
@@ -23,7 +23,7 @@ class Criteria(models.Model):
     maximum_score = models.FloatField(null=False)
     category = models.ForeignKey(CriteriaCategory)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -31,7 +31,7 @@ class ParticipantGroup(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     pageant  = models.ForeignKey(Pageant)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class PageantParticipant(models.Model):
@@ -41,14 +41,14 @@ class PageantParticipant(models.Model):
     group = models.ForeignKey(ParticipantGroup)
     photo = models.FileField(upload_to="profile/", null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class Judge(models.Model):
     user = models.ForeignKey(User, related_name="+")
     pageant = models.ForeignKey(Pageant)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s' % self.user
 
 class PageantParticipantRating (models.Model):

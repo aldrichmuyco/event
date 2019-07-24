@@ -7,3 +7,7 @@ db.sql
 .vscode
 dump/
 venv/
+events/migrations/*.py
+!events/migrations/__init__.py
+pageant/migrations/*.py
+!pageant/migrations/__init__.py

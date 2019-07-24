@@ -94,9 +94,9 @@ WSGI_APPLICATION = 'event.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'spmc_event',
-        'USER': 'root',
-        'PASSWORD': '',
+        'NAME': 'event',
+        'USER': 'kcasensa',
+        'PASSWORD': 'kcasensa',
         'HOST': 'localhost',
         'PORT': '3306'
     }

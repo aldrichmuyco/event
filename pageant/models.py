@@ -6,13 +6,20 @@ class Pageant(models.Model):
     title = models.CharField(max_length=255, null=False, blank=False)
     is_closed = models.BooleanField(default=False, null=False)
 
+    class Meta:
+        verbose_name = 'Event'
+
     def __str__(self):
         return self.title
 
 class CriteriaCategory(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
-    pageant = models.ForeignKey(Pageant)
+    pageant = models.ForeignKey(Pageant, verbose_name='Event')
     weight = models.FloatField(null=False)
+
+    class Meta:
+        verbose_name = 'Criteria'
+        verbose_name_plural = 'Criteria'
 
     def __str__(self):
         return self.name
@@ -29,7 +36,7 @@ class Criteria(models.Model):
 
 class ParticipantGroup(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
-    pageant  = models.ForeignKey(Pageant)
+    pageant  = models.ForeignKey(Pageant, verbose_name='Event')
 
     def __str__(self):
         return self.name

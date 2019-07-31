@@ -70,7 +70,7 @@ def pageant(request, pageant_id):
 
 
     details = {'details': pageant_details, 'categories' : category_list_main, 'groups' : group_list}
-    #print template
+    # print template
     return render_to_response(template, details, context_instance=RequestContext(request))
 
 def all_ratings(request, pageant_id,group_id):

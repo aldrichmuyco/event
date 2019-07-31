@@ -13,144 +13,112 @@
     <title>SPMC Event Tabulation System</title>
 
     <!-- Favicon -->
-    <!-- <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/> -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="/static/frontend/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="/static/frontend/css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="/static/frontend/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- CSS -->
+    <link href="/static/frontend/bootstrap4/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootsrtrap -->
+    <link href="/static/frontend/fontawesome5/css/all.min.css" rel="stylesheet" type="text/css"> <!-- Fontawesome -->
 
     <!-- Custom CSS -->
     <link href="/static/admin/css/style.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 
 <body class="body-wrap">
 
-    <div id="container-fluid">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-fixed navbar-custom navbar-light">
+        <!-- Brand -->
+        <a class="navbar-brand" href="{% url 'home' %}"> 
+            <span id="brand-name">SPMC</span> 
+            <span id="brand-subname">Event Tabulation System</span> 
+        </a>
+        
+        <!-- Toggler/collapsibe Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                        <form class="form-inline" action="{% url 'logout' %}">
+                            <button class="btn btn-outline-light" type="submit" data-toggle="tooltip" data-placement="bottom" title="Logout"> {{user.get_full_name}} </button>
+                        </form>
+                    {% else %}
+                        <form class="form-inline" action="{% url 'login' %}">
+                            <button class="btn btn-light" type="submit" formaction="{% url 'login' %}"> Login </button>
+                        </form>
+                    {% endif %}
+                </li>
+            </ul>
+        </div> 
+    </nav> 
 
-        <nav class="navbar navbar-default navbar-static-top navbar-custom" role="navigation" style="margin-bottom: 0">
-            <div class="container-fluid">
-
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span> 
-                    </button>                        
-                    <a class="navbar-brand" href="index.html"> 
-                        <span id="brand-name">SPMC</span> 
-                        <span id="brand-subname">Event Tabulation System</span> 
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            {% if user.is_authenticated %}
-                                <a href="{% url "logout" %}" data-toggle="tooltip" title="Logout"> <i class="fa fa-sign-out fa-fw"></i> {{ user.get_full_name }}</a>
-                            {% else %}
-                                <a href="{% url "login" %}"><i class="fa fa-sign-in fa-fw"></i> Login</a>
-                            {% endif %}
-                        </li>
-                    </ul>
-                </div>
-               
-            </div>
-        </nav>
-
-        <div class="container-fluid">
-            <div class="page-header">
-                <h2>Dashboard</h2>
-            </div>
-
-            <!-- /.row -->
+    <div class="container-fluid">
+        <!-- Heading -->
+        <section class="mt-5">
+            <h1 class="text-secondary">Dashboard</h1> 
+            <p class="text-secondary">Hospital Week 2019</p> 
+        </section>
+        
+        <!-- Events -->
+        <!-- <article class="mt-4">
             <div class="row">
                 {% for event in events %}
-                <div class="col-lg-3 col-md-6">
-                    <a href="{% url "event" event.pk %}">
-                        <div class="panel {% cycle 'panel-primary' 'panel-green' 'panel-yellow' 'panel-red' %}">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right" style="margin-top:1em;">
-                                        <div>{{ event.title }} {% if event.is_closed %}<br />(Closed){% endif %}</div>
-                                    </div>
+                <div class="col-lg-3 col-md-6"> 
+                    <a href="{% url 'event' event.pk %}" class="text-decoration-none">
+                        <div class="card card-custom mb-4">
+                            <div class="card-body p-4 text-justify text-secondary">
+                                <div class="card-body-icon">
+                                    <i class="fas fa-fw fa-list {% cycle 'text-warning' 'text-primary' 'text-success' 'text-danger' %}"></i>
                                 </div>
-                            </div>
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
+                                <p class="text-uppercase lead mb-0 mt-5 font-weight-bold">{{ event.title }} {% if event.is_closed %} (Closed){% endif %}</p> 
                             </div>
                         </div>
                     </a>
                 </div>
                 {% endfor %}
             </div>
+        </article> -->
+
+        <!-- Pageant -->
+        <article class="mt-4">
             <div class="row">
                 {% for pageant in pageants %}
-                <div class="col-lg-3 col-md-6">
-                    <a href="{% url "pageant" pageant.pk %}">
-                        <div class="panel {% cycle 'panel-primary' 'panel-green' 'panel-yellow' 'panel-red' %}">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right" style="margin-top:1em;">
-                                        <div>{{ pageant.title }} {% if pageant.is_closed %}<br />(Closed){% endif %}</div>
-                                    </div>
+                <div class="col-lg-6 col-md-6"> 
+                    <a href="{% url 'pageant' pageant.pk %}" class="text-decoration-none">
+                        <div class="card card-custom mb-4">
+                            <div class="card-body p-4 text-justify text-secondary">
+                                <div class="card-body-icon">
+                                    <i class="fas fa-fw fa-list {% cycle 'text-warning' 'text-primary' 'text-success' 'text-danger' %}"></i>
                                 </div>
-                            </div>
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
+                                <p class="text-uppercase lead mb-0 mt-5 font-weight-bold">{{ pageant.title }} {% if pageant.is_closed %} (Closed){% endif %}</p> 
                             </div>
                         </div>
                     </a>
                 </div>
                 {% endfor %}
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-default panel-custom">
-                        <div class="panel-body">Panel Content</div>
-                    </div>
-                </div>
-                
             </div>
-            <!-- /.row -->
-        </div>
-        <!-- /#page-wrapper -->
-
+        </article>
     </div>
-    <!-- /#wrapper -->
+
+    <!-- Footer -->
+    <!-- <footer class="footer">
+        <div class="text-center bg-dark color-secondary"> 
+            <small>SPMC Hospital Week 2019</small> 
+        </div>        
+    </footer> -->
+    
+
 
     <!-- jQuery -->
     <script src="/static/frontend/js/jquery.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
-    <script src="/static/frontend/js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="/static/frontend/js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="/static/frontend/js/sb-admin-2.js"></script>
+    <script src="/static/frontend//bootstrap4/js/bootstrap.min.js"></script>
 
 </body>
 

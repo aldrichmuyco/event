@@ -1,3 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %} 
+
+    {% block navbar %} 
+        {% include 'includes/navbar.html' %}  
+    {% endblock %}
+    
+    <div class="container-fluid pl-4 pr-4">
+        {% block section %}
+            <section class="mt-5">
+                <h1 class="text-secondary">Dashboard</h1> 
+                <p class="text-secondary">Hospital Week 2019</p> 
+            </section>
+        {% endblock %}
+        
+        {% block article %} 
+            <!-- Events -->
+            <!-- <article class="mt-4">
+                <h6 class="text-uppercase text-secondary mb-3"> Event Lists </h6>                
+                <div class="row">
+                    {% for event in events %}
+                    <div class="col-lg-3 col-md-6"> 
+                        <a href="{% url 'event' event.pk %}" class="text-decoration-none">
+                            <div class="card card-custom mb-4">
+                                <div class="card-body p-4 text-justify text-secondary">
+                                    <div class="card-body-icon">
+                                        <i class="fas fa-fw fa-list {% cycle 'text-warning' 'text-primary' 'text-success' 'text-danger' %}"></i>
+                                    </div>
+                                    <p class="text-uppercase lead mb-0 mt-5 font-weight-bold">{{ event.title }} {% if event.is_closed %} (Closed){% endif %}</p> 
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </article> -->
+
+            <!-- Pageant -->
+            <article class="mt-5">
+                <h6 class="text-uppercase text-secondary mb-3"> Event Panel </h6>
+                <div class="row">
+                    {% for pageant in pageants %}
+                    <div class="col-lg-6 col-md-6"> 
+                        <a href="{% url 'pageant' pageant.pk %}" class="text-decoration-none">
+                            <div class="card card-custom mb-4">
+                                <div class="card-body p-4 text-justify text-secondary">
+                                    <div class="card-body-icon">
+                                        <i class="fas fa-fw fa-list {% cycle 'text-warning' 'text-primary' 'text-success' 'text-danger' %}"></i>
+                                    </div>
+                                    <p class="text-uppercase lead mb-0 mt-5 font-weight-bold">{{ pageant.title }} {% if pageant.is_closed %} (Closed){% endif %}</p> 
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </article>
+        {% endblock %}
+    </div>
+   
+
+    {% block footer %}
+        <!-- <footer class="footer">
+            <div class="text-center bg-dark color-secondary"> 
+                <small>SPMC Hospital Week 2019</small> 
+            </div>        
+        </footer> -->
+    {% endblock %}
+    
+{% endblock %}
+
 <!DOCTYPE html>
 <html lang="en">
 

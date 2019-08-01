@@ -1,125 +1,74 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
+{% block title %} Dashboard {% endblock %}
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% block content %} 
 
-    <title>SPMC Event Tabulation System</title>
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
-
-    <!-- CSS -->
-    <link href="/static/frontend/bootstrap4/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootsrtrap -->
-    <link href="/static/frontend/fontawesome5/css/all.min.css" rel="stylesheet" type="text/css"> <!-- Fontawesome -->
-
-    <!-- Custom CSS -->
-    <link href="/static/admin/css/style.css" rel="stylesheet" type="text/css">
-
-
-</head>
-
-<body class="body-wrap">
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-md navbar-fixed navbar-custom navbar-light">
-        <!-- Brand -->
-        <a class="navbar-brand" href="{% url 'home' %}"> 
-            <span id="brand-name">SPMC</span> 
-            <span id="brand-subname">Event Tabulation System</span> 
-        </a>
-        
-        <!-- Toggler/collapsibe Button -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <!-- Navbar links -->
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    {% if user.is_authenticated %}
-                        <form class="form-inline" action="{% url 'logout' %}">
-                            <button class="btn btn-outline-light" type="submit" data-toggle="tooltip" data-placement="bottom" title="Logout"> {{user.get_full_name}} </button>
-                        </form>
-                    {% else %}
-                        <form class="form-inline" action="{% url 'login' %}">
-                            <button class="btn btn-light" type="submit" formaction="{% url 'login' %}"> Login </button>
-                        </form>
-                    {% endif %}
-                </li>
-            </ul>
-        </div> 
-    </nav> 
-
-    <div class="container-fluid">
-        <!-- Heading -->
-        <section class="mt-5">
-            <h1 class="text-secondary">Dashboard</h1> 
-            <p class="text-secondary">Hospital Week 2019</p> 
-        </section>
-        
-        <!-- Events -->
-        <!-- <article class="mt-4">
-            <div class="row">
-                {% for event in events %}
-                <div class="col-lg-3 col-md-6"> 
-                    <a href="{% url 'event' event.pk %}" class="text-decoration-none">
-                        <div class="card card-custom mb-4">
-                            <div class="card-body p-4 text-justify text-secondary">
-                                <div class="card-body-icon">
-                                    <i class="fas fa-fw fa-list {% cycle 'text-warning' 'text-primary' 'text-success' 'text-danger' %}"></i>
-                                </div>
-                                <p class="text-uppercase lead mb-0 mt-5 font-weight-bold">{{ event.title }} {% if event.is_closed %} (Closed){% endif %}</p> 
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                {% endfor %}
-            </div>
-        </article> -->
-
-        <!-- Pageant -->
-        <article class="mt-4">
-            <div class="row">
-                {% for pageant in pageants %}
-                <div class="col-lg-6 col-md-6"> 
-                    <a href="{% url 'pageant' pageant.pk %}" class="text-decoration-none">
-                        <div class="card card-custom mb-4">
-                            <div class="card-body p-4 text-justify text-secondary">
-                                <div class="card-body-icon">
-                                    <i class="fas fa-fw fa-list {% cycle 'text-warning' 'text-primary' 'text-success' 'text-danger' %}"></i>
-                                </div>
-                                <p class="text-uppercase lead mb-0 mt-5 font-weight-bold">{{ pageant.title }} {% if pageant.is_closed %} (Closed){% endif %}</p> 
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                {% endfor %}
-            </div>
-        </article>
-    </div>
-
-    <!-- Footer -->
-    <!-- <footer class="footer">
-        <div class="text-center bg-dark color-secondary"> 
-            <small>SPMC Hospital Week 2019</small> 
-        </div>        
-    </footer> -->
+    {% block navbar %} 
+        {% include 'includes/navbar.html' %}  
+    {% endblock %}
     
+    <div class="container-fluid pl-4 pr-4">
+        {% block section %}
+            <section class="mt-5">
+                <h1 class="text-secondary">Dashboard</h1> 
+                <p class="text-secondary">Hospital Week 2019</p> 
+            </section>
+        {% endblock %}
+        
+        {% block article %} 
+            <!-- Events -->
+            <!-- <article class="mt-4">
+                <h6 class="text-uppercase text-secondary mb-3"> Event Lists </h6>                
+                <div class="row">
+                    {% for event in events %}
+                    <div class="col-lg-3 col-md-6"> 
+                        <a href="{% url 'event' event.pk %}" class="text-decoration-none">
+                            <div class="card card-custom mb-4">
+                                <div class="card-body p-4 text-justify text-secondary">
+                                    <div class="card-body-icon">
+                                        <i class="fas fa-fw fa-list {% cycle 'text-warning' 'text-primary' 'text-success' 'text-danger' %}"></i>
+                                    </div>
+                                    <p class="text-uppercase lead mb-0 mt-5 font-weight-bold">{{ event.title }} {% if event.is_closed %} (Closed){% endif %}</p> 
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </article> -->
 
+            <!-- Pageant -->
+            <article class="mt-5">
+                <h6 class="text-uppercase text-secondary mb-3"> Event Panel </h6>
+                <div class="row">
+                    {% for pageant in pageants %}
+                    <div class="col-lg-6 col-md-6"> 
+                        <a href="{% url 'pageant' pageant.pk %}" class="text-decoration-none">
+                            <div class="card card-custom mb-4">
+                                <div class="card-body p-4 text-justify text-secondary">
+                                    <div class="card-body-icon">
+                                        <i class="fas fa-fw fa-list {% cycle 'text-warning' 'text-primary' 'text-success' 'text-danger' %}"></i>
+                                    </div>
+                                    <p class="text-uppercase lead mb-0 mt-5 font-weight-bold">{{ pageant.title }} {% if pageant.is_closed %} (Closed){% endif %}</p> 
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </article>
+        {% endblock %}
+    </div>
+   
 
-    <!-- jQuery -->
-    <script src="/static/frontend/js/jquery.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/static/frontend//bootstrap4/js/bootstrap.min.js"></script>
-
-</body>
-
-</html>
+    {% block footer %}
+        <!-- <footer class="footer">
+            <div class="text-center bg-dark color-secondary"> 
+                <small>SPMC Hospital Week 2019</small> 
+            </div>        
+        </footer> -->
+    {% endblock %}
+    
+{% endblock %}

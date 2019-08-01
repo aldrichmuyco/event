@@ -16,7 +16,7 @@ def is_users_event(request, event_id):
             return True
     return False
 
-
+@login_required(login_url='/login')
 def home(request):
     events = Event.objects.all().order_by('is_closed', '-id')
     pageants = Pageant.objects.filter(is_closed=False).order_by('is_closed', 'id')

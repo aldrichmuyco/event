@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title> {% block title %} {% endblock %} | SPMC ETS</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+
+        <!-- CSS -->
+        <link href="{% static 'frontend/bootstrap4/css/bootstrap.min.css' %}" rel="stylesheet"> <!-- Bootsrtrap -->
+        <link href="{% static 'frontend/fontawesome5/css/all.min.css' %}" rel="stylesheet" type="text/css"> <!-- Fontawesome -->
+
+        <!-- Custom CSS -->
+        <link href="{% static 'admin/css/style.css' %}" rel="stylesheet" type="text/css"> 
+        {% block style %} {% endblock %}
+
+    </head>
+    <body class="body-wrap">
+        
+        {% block content %} 
+
+            <!-- Navigation -->
+            {% block navbar %} {% endblock %}
+
+            <!-- Section Heading-->
+            {% block section %} {% endblock %}
+
+            <!-- Article Body -->
+            {% block article %} {% endblock %}
+
+            <!-- Footer -->
+            {% block footer %} {% endblock %}
+
+        {% endblock %}
+
+        <!-- jQuery -->
+        <script src="{% static 'frontend/js/jquery.js' %}"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="{% static 'frontend/bootstrap4/js/bootstrap.min.js' %}"></script>
+
+        <!-- Custom Script -->
+        {% block script %} {% endblock %}
+
+    </body>
+</html>

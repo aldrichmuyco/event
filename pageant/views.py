@@ -67,8 +67,6 @@ def pageant(request, pageant_id):
             overall.append({'detail':participant, 'scores':participant_scores, 'total': total})
         group_list.append({'detail': group, 'categories': category_list, 'overall' : overall})
 
-
-
     details = {'details': pageant_details, 'categories' : category_list_main, 'groups' : group_list}
     # print template
     return render_to_response(template, details, context_instance=RequestContext(request))

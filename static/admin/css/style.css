@@ -31,15 +31,6 @@
 .border-light {border-left: 4px solid #f8f9fa !important;}
 .border-orange {border-left: 4px solid #e27a60 !important;}
 
-.text-primary {color: #3a97fa !important;}
-.text-secondary {color: #6c757d !important}
-.text-success {color: #6fca84 !important;}
-.text-info {color: #5ac7d8 !important;}
-.text-danger {color: #e65b69 !important;}
-.text-warning {color: #ffd574 !important;}
-.text-light {color: #f8f9fa !important;}
-.text-orange {color: #e27a60 !important;}
-
 .btn-primary {background-color: #3a97fa !important; border:none;}
 .btn-secondary {background-color: #6c757d !important; border:none;}
 .btn-success {background-color: #6fca84 !important; border: none;}
@@ -102,7 +93,6 @@
     transform: scale(1.2) rotate(10deg);
     filter: blur(0)
 }
-
 .card-custom p {
     transition: transform .5s ease-in-out;
     /* transform: scale(1.4); */
@@ -110,6 +100,19 @@
 }
 .card-custom:hover p {
     transform: translateX(3%);
+}
+
+.card-disable {
+    /* background-color: #e9ecef; */
+    border-left: 4px solid #646464;
+}
+.card-disable .card-body-icon i {
+    color: #b9b9b9 !important;
+}
+.card-disable:hover {
+    -webkit-box-shadow: 0px 0px 12px -3px #64646480;
+    -moz-box-shadow: 0px 0px 12px -3px #64646480;
+    box-shadow: 0px 0px 12px -3px #64646480;
 }
 
 .card-body-icon {

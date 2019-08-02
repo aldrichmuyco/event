@@ -1,7 +1,55 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Dashboard {% endblock %}
+{% block title %} Tabulation {% endblock %}
+
+{% block style %} 
+    <style>
+        .card-wrap {
+            background-color: transparent;
+            border:none
+        }
+        .card-wrap #header-wrap{
+            background-color: transparent;
+            border:none
+        }
+        .card-wrap #body-wrap {
+            background-color: transparent;
+            border: none;
+        }
+        .card-criteria {
+            border:none;
+            border-left: 4px solid #e27a60;
+            -webkit-box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
+            -moz-box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
+            box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
+        }
+        .card-criteria .card-header {
+            background-color: white;
+            padding: 8px 20px;
+        }
+        .nav-link {
+            border : none !important;
+        }
+        .table tbody td {
+            padding: 10px;
+        }
+        .nav-link {
+            width:100px !important;
+            text-align: center;
+            color: gray;
+        }
+        .nav-link:hover {
+            color: #3a3a3a;
+        }
+        .nav-link.active {
+            background-color: transparent !important;
+            border-bottom: 3px solid #e27a60 !important;
+            color: #e27a60 !important;
+        }
+
+    </style>
+{% endblock %}
 
 {% block content %} 
 
@@ -12,52 +60,95 @@
     <div class="container-fluid pl-4 pr-4">
         {% block section %}
             <section class="mt-5">
-                <h1 class="text-secondary">Dashboard</h1> 
+                <h1 class="text-secondary">{{ details.title }}</h1> 
                 <p class="text-secondary">Hospital Week 2019</p> 
             </section>
         {% endblock %}
         
         {% block article %} 
-            <!-- Events -->
-            <!-- <article class="mt-4">
-                <h6 class="text-uppercase text-secondary mb-3"> Event Lists </h6>                
-                <div class="row">
-                    {% for event in events %}
-                    <div class="col-lg-3 col-md-6"> 
-                        <a href="{% url 'event' event.pk %}" class="text-decoration-none">
-                            <div class="card card-custom mb-4">
-                                <div class="card-body p-4 text-justify text-secondary">
-                                    <div class="card-body-icon">
-                                        <i class="fas fa-fw fa-list {% cycle 'text-warning' 'text-primary' 'text-success' 'text-danger' %}"></i>
-                                    </div>
-                                    <p class="text-uppercase lead mb-0 mt-5 font-weight-bold">{{ event.title }} {% if event.is_closed %} (Closed){% endif %}</p> 
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
-            </article> -->
+        <article class="mt-5">
+                <h6 class="text-uppercase text-secondary mb-4"> Tabulation Panel </h6>
 
-            <!-- Pageant -->
-            <article class="mt-5">
-                <h6 class="text-uppercase text-secondary mb-3"> Event Panel </h6>
-                <div class="row">
-                    {% for pageant in pageants %}
-                    <div class="col-lg-6 col-md-6"> 
-                        <a href="{% url 'pageant' pageant.pk %}" class="text-decoration-none">
-                            <div class="card card-custom mb-4">
-                                <div class="card-body p-4 text-justify text-secondary">
-                                    <div class="card-body-icon">
-                                        <i class="fas fa-fw fa-list {% cycle 'text-warning' 'text-primary' 'text-success' 'text-danger' %}"></i>
+                <form action="/pageant_process/{{details.id}}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% if groups %} 
+                                <div class="card card-wrap mb-4">
+                                    
+                                    <div class="card-header p-0 text-justify text-secondary" id="header-wrap">
+                                        <ul class="nav nav-tabs">
+                                            {% for group in groups %}
+                                                <li class="nav-item">
+                                                    <a class="nav-link {% if forloop.first %} active {% endif %}" data-toggle="tab" href="#group{{group.detail.id}}" aria-expanded="true">{{group.detail.name}}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div> 
+                                        
+                                    <div class="card-body p-0 text-justify text-secondary" id="body-wrap">
+                                        <div class="tab-content">
+                                        
+                                            {% for group in groups %}
+                                                <div class="tab-pane container-fluid p-3 {% if forloop.first %} active {% endif %}" id="group{{group.detail.id}}">   
+                                                    <div class="clearfix">
+                                                        <button class="btn btn-default btn-outline-success float-right">Save Rating</button> 
+                                                    </div>
+                                                    {% for category in group.categories %}
+                                                        <div class="card card-criteria mt-4 mb-0">
+                                                            
+                                                            <div class="card-header clearfix">
+                                                                <span class="float-left"> <b>{{category.detail.name}} ({{category.detail.weight}}%)</b> </span>
+                                                                <a href="#body{{category.detail.id}}" data-toggle="collapse" class="float-right"><i class="fas fa-sm fa-plus text-secondary"></i></a>
+                                                            </div>
+
+                                                            <div class="card-body m-0 p-0" id="body{{category.detail.id}}">
+                                                                <table class="table table-hover table-borderless text-secondary m-0">
+                                                                    <thead class="thead-light">
+                                                                        <tr>
+                                                                            <th width="10%">No</th>
+                                                                            <th width="20%">Candidate</th>
+                                                                            {% for criteria_row in categories.0.criteria %}
+                                                                                <th width="auto">{{criteria_row.name}} ({{criteria_row.weight}})%</th>
+                                                                            {% endfor %}
+                                                                            <th width="10%">Total (100%)</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for participant in category.participants %}
+                                                                            <tr>
+                                                                                <td>{{participant.detail.order}}</td>
+                                                                                <td>
+                                                                                    {% if participant.detail.photo %}
+                                                                                        <a href="/media/{{participant.detail.photo}}" class="participant_picture">{{participant.detail.name}}</a>
+                                                                                    {% else %}
+                                                                                        {{participant.detail.name}}
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                                {% for rating_row in participant.rating %}
+                                                                                    <td>                             
+                                                                                        <input type="number" class="form-control " placeholder="(0 - {{rating_row.max}})" step="any" min="0" max="{{rating_row.max}}" name="{{participant.detail.id}}-{{rating_row.id}}" value="{{rating_row.score}}">
+                                                                                    </td>
+                                                                                {% endfor %}
+                                                                                <td>{{participant.total}}</td>
+                                                                            </tr>
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
                                     </div>
-                                    <p class="text-uppercase lead mb-0 mt-5 font-weight-bold">{{ pageant.title }} {% if pageant.is_closed %} (Closed){% endif %}</p> 
+                                
                                 </div>
-                            </div>
-                        </a>
+                            {% endif %}
+
+                        </div>
                     </div>
-                    {% endfor %}
-                </div>
+                </form>
             </article>
         {% endblock %}
     </div>

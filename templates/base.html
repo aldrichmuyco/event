@@ -19,7 +19,7 @@
         <link href="{% static 'frontend/fontawesome5/css/all.min.css' %}" rel="stylesheet" type="text/css"> <!-- Fontawesome -->
 
         <!-- Custom CSS -->
-        <link href="{% static 'admin/css/style.css' %}" rel="stylesheet" type="text/css"> 
+        <link href="{% static 'admin/css/main.css' %}" rel="stylesheet" type="text/css"> 
         {% block style %} {% endblock %}
 
     </head>
@@ -41,11 +41,14 @@
 
         {% endblock %}
 
+        <!-- Modals -->
+        {% block modals %} {% endblock %}
+
+
         <!-- jQuery -->
         <script src="{% static 'frontend/js/jquery.js' %}"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="{% static 'frontend/bootstrap4/js/bootstrap.min.js' %}"></script>
-
         <!-- Custom Script -->
         {% block script %} {% endblock %}
 

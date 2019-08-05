@@ -4,51 +4,7 @@
 {% block title %} Tabulation {% endblock %}
 
 {% block style %} 
-    <style>
-        .card-wrap {
-            background-color: transparent;
-            border:none
-        }
-        .card-wrap #header-wrap{
-            background-color: transparent;
-            border:none
-        }
-        .card-wrap #body-wrap {
-            background-color: transparent;
-            border: none;
-        }
-        .card-criteria {
-            border:none;
-            border-left: 4px solid #e27a60;
-            -webkit-box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
-            -moz-box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
-            box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
-        }
-        .card-criteria .card-header {
-            background-color: white;
-            padding: 8px 20px;
-        }
-        .nav-link {
-            border : none !important;
-        }
-        .table tbody td {
-            padding: 10px;
-        }
-        .nav-link {
-            width:100px !important;
-            text-align: center;
-            color: gray;
-        }
-        .nav-link:hover {
-            color: #3a3a3a;
-        }
-        .nav-link.active {
-            background-color: transparent !important;
-            border-bottom: 3px solid #e27a60 !important;
-            color: #e27a60 !important;
-        }
-
-    </style>
+    <link href="{% static 'admin/css/tabulation.css' %}" rel="stylesheet" type="text/css"> 
 {% endblock %}
 
 {% block content %} 
@@ -61,53 +17,47 @@
         {% block section %}
             <section class="mt-5">
                 <h1 class="text-secondary">{{ details.title }}</h1> 
-                <p class="text-secondary">Hospital Week 2019</p> 
+                <!-- <p class="text-secondary">Hospital Week 2019</p>  -->
             </section>
         {% endblock %}
         
         {% block article %} 
-        <article class="mt-5">
+            <article class="mt-4 mb-5">
                 <h6 class="text-uppercase text-secondary mb-4"> Tabulation Panel </h6>
-
                 <form action="/pageant_process/{{details.id}}" method="POST">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-md-12">
                             {% if groups %} 
-                                <div class="card card-wrap mb-4">
-                                    
-                                    <div class="card-header p-0 text-justify text-secondary" id="header-wrap">
-                                        <ul class="nav nav-tabs">
-                                            {% for group in groups %}
-                                                <li class="nav-item">
-                                                    <a class="nav-link {% if forloop.first %} active {% endif %}" data-toggle="tab" href="#group{{group.detail.id}}" aria-expanded="true">{{group.detail.name}}</a>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div> 
-                                        
-                                    <div class="card-body p-0 text-justify text-secondary" id="body-wrap">
-                                        <div class="tab-content">
-                                        
-                                            {% for group in groups %}
-                                                <div class="tab-pane container-fluid p-3 {% if forloop.first %} active {% endif %}" id="group{{group.detail.id}}">   
-                                                    <div class="clearfix">
-                                                        <button class="btn btn-default btn-outline-success float-right">Save Rating</button> 
-                                                    </div>
-                                                    {% for category in group.categories %}
-                                                        <div class="card card-criteria mt-4 mb-0">
-                                                            
-                                                            <div class="card-header clearfix">
-                                                                <span class="float-left"> <b>{{category.detail.name}} ({{category.detail.weight}}%)</b> </span>
-                                                                <a href="#body{{category.detail.id}}" data-toggle="collapse" class="float-right"><i class="fas fa-sm fa-plus text-secondary"></i></a>
-                                                            </div>
+                                <div class="mb-4">
+                                    <ul class="nav nav-tabs">
+                                        {% for group in groups %}
+                                            <li class="nav-item">
+                                                <a class="nav-link {% if forloop.first %} active {% endif %}" data-toggle="tab" href="#group{{group.detail.id}}" aria-expanded="true">{{group.detail.name}}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="tab-content">
+                                        {% for group in groups %}
+                                            <div class="tab-pane container-fluid p-3 {% if forloop.first %} active {% endif %}" id="group{{group.detail.id}}">   
+                                                <div class="clearfix">
+                                                    <button class="btn btn-default btn-outline-success float-right">Save Rating</button> 
+                                                </div>
+                                                {% for category in group.categories %}
+                                                    <div class="card card-criteria mt-4 mb-0">
+                                                        
+                                                        <div class="card-header clearfix">
+                                                            <span class="float-left text-secondary"> <b>{{category.detail.name}} ({{category.detail.weight}}%)</b> </span>
+                                                            <a href="#body{{category.detail.id}}" data-toggle="collapse" class="float-right"><i class="fas fa-sm fa-minus text-secondary"></i></a>
+                                                        </div>
 
-                                                            <div class="card-body m-0 p-0" id="body{{category.detail.id}}">
-                                                                <table class="table table-hover table-borderless text-secondary m-0">
-                                                                    <thead class="thead-light">
+                                                        <div class="collapse show" id="body{{category.detail.id}}">
+                                                            <div class="card-body m-0 p-0">
+                                                                <table class="table table-hover table-bordered text-secondary m-0">
+                                                                    <thead class="">
                                                                         <tr>
-                                                                            <th width="10%">No</th>
-                                                                            <th width="20%">Candidate</th>
+                                                                            <th width="5%">No</th>
+                                                                            <th width="25%">Candidate</th>
                                                                             {% for criteria_row in categories.0.criteria %}
                                                                                 <th width="auto">{{criteria_row.name}} ({{criteria_row.weight}})%</th>
                                                                             {% endfor %}
@@ -120,206 +70,45 @@
                                                                                 <td>{{participant.detail.order}}</td>
                                                                                 <td>
                                                                                     {% if participant.detail.photo %}
-                                                                                        <a href="/media/{{participant.detail.photo}}" class="participant_picture">{{participant.detail.name}}</a>
+                                                                                        <div class="img-link" data-toggle="modal" data-target="#myModal">
+                                                                                            <img src="/media/{{participant.detail.photo}}" alt="none" class="img-data mr-2" >
+                                                                                            <span> {{participant.detail.name}} </span> 
+                                                                                        </div>
                                                                                     {% else %}
-                                                                                        {{participant.detail.name}}
-                                                                                    {% endif %}
+                                                                                        <img src="/media/default.png" alt="none" class="img-data mr-2">
+                                                                                        <span class="mt-2"> {{participant.detail.name}} </span>
+                                                                                    {% endif %} 
                                                                                 </td>
                                                                                 {% for rating_row in participant.rating %}
                                                                                     <td>                             
-                                                                                        <input type="number" class="form-control " placeholder="(0 - {{rating_row.max}})" step="any" min="0" max="{{rating_row.max}}" name="{{participant.detail.id}}-{{rating_row.id}}" value="{{rating_row.score}}">
+                                                                                        <input type="number" class="form-control" placeholder="(0 - {{rating_row.max}})" step="any" min="0" max="{{rating_row.max}}" name="{{participant.detail.id}}-{{rating_row.id}}" value="{{rating_row.score}}">
                                                                                     </td>
                                                                                 {% endfor %}
-                                                                                <td>{{participant.total}}</td>
+                                                                                <td class="text-success"> <b> {{participant.total}}</b> </td>
                                                                             </tr>
                                                                         {% endfor %}
                                                                     </tbody>
                                                                 </table>
                                                             </div>
                                                         </div>
-                                                    {% endfor %}
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                
-                                </div>
-                            {% endif %}
-
-                        </div>
-                    </div>
-                </form>
-            </article>
-        {% endblock %}
-    </div>
-   
-
-    {% block footer %}
-        <!-- <footer class="footer">
-            <div class="text-center bg-dark color-secondary"> 
-                <small>SPMC Hospital Week 2019</small> 
-            </div>        
-        </footer> -->
-    {% endblock %}
-    
-{% endblock %}
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Southern Philippines Medical Center - Event Details</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="/static/frontend/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="/static/frontend/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-
-    <!-- DataTables CSS -->
-    <link href="/static/frontend/css/plugins/dataTables.bootstrap.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="/static/frontend/css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="/static/frontend/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/static/jquery_dialog/jquery-ui.css" rel="stylesheet" type="text/css"/>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-
-    <div id="wrapper">
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="{% url "home" %}">SPMC</a>
-            </div>
-            <!-- /.navbar-header -->
-
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    {% if user.is_authenticated %}
-                        <a href="{% url "logout" %}"><i class="fa fa-sign-out fa-fw"></i> Logout {{user.first_name}} {{user.last_name}} ({{user.username}})</a>
-                    {% else %}
-                        <a href="{% url "login" %}"><i class="fa fa-sign-out fa-fw"></i> Login</a>
-                    {% endif %}
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-            <!-- /.navbar-top-links -->
-        </nav>
-
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">{{details.title}}</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <form action="/pageant_process/{{details.id}}" method="post">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-success">{{message}}</div>
-                        {% endfor %}
-                    {% endif %}
-                    {% csrf_token %}
-                    <div class="col-lg-12">
-                        {% if groups %}
-                            <ul class="nav nav-tabs">
-                            {% for group in groups %}
-                                <li class="{% if forloop.first %}active{% endif %}">
-                                    <a href="#group{{group.detail.id}}" data-toggle="tab" aria-expanded="true">{{group.detail.name}}</a>
-                                </li>
-                            {% endfor %}
-                            </ul>
-                            <button type="submit" class="btn btn-default" style="float:right;margin-top:10px;margin-bottom:10px;">Save Rating</button>
-                            <div class="tab-content" style="clear:both;">
-                                {% for group in groups %}
-                                    <div class="tab-pane fade {% if forloop.first %} active in{% endif %}" id="group{{group.detail.id}}">
-                                        <div class="panel-group panel-default">
-                                            {% for category in group.categories %}
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <h3 class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#accordion" href="#group{{group.detail.id}}col{{category.detail.id}}">{{category.detail.name}} ({{category.detail.weight}}%)</a> 
-                                                        </h3>
+                                                        
                                                     </div>
-                                                    <div id="group{{group.detail.id}}col{{category.detail.id}}" class="">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-striped table-bordered table-hover">
+                                                {% endfor %}
+
+                                                <!-- <div class="card card-criteria mt-4 mb-0">
+                                                    <div class="card-header clearfix">
+                                                        <span class="float-left"> <b>Overall</b> </span>
+                                                        <a href="#body{{category.detail.id}}" data-toggle="collapse" class="float-right"><i class="fas fa-sm fa-plus text-secondary"></i></a>
+                                                    </div>
+                                                    <div class="collapse" id="body{{category.detail.id}}">
+                                                        <div class="card-body m-0 p-0">
+                                                            <table class="table table-bordered m-0 text-secondary">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>#</th>
-                                                                        <th>Candidate</th>
-                                                                        {% for criteria_row in categories.0.criteria %}
-                                                                            <th><center>
-                                                                                {{criteria_row.name}}<br />
-                                                                                {{criteria_row.weight}} %
-                                                                                </center>
-                                                                            </th>
-                                                                        {% endfor %}
-                                                                        <th><center>Total<br />100%</center></th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {% for participant in category.participants %}
-                                                                        <tr>
-                                                                            <td>{{participant.detail.order}}</td>
-                                                                            <td>
-                                                                                {% if participant.detail.photo %}
-                                                                                    <a href="/media/{{participant.detail.photo}}" class="participant_picture">{{participant.detail.name}}</a>
-                                                                                {% else %}
-                                                                                    {{participant.detail.name}}
-                                                                                {% endif %}
-                                                                            </td>
-                                                                            {% for rating_row in participant.rating %}
-                                                                                <td>
-                                                                                   <input class="form-control" placeholder="(0 - {{rating_row.max}})" type="number" min="0" max="{{rating_row.max}}" step="any" name="{{participant.detail.id}}-{{rating_row.id}}" value="{{rating_row.score}}">
-                                                                                </td>
-                                                                            {% endfor %}
-                                                                            <td>{{participant.total}}</td>
-                                                                        </tr>
-                                                                    {% endfor %}
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                                <!--<div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <h3 class="panel-title">
-                                                            <a data-toggle="collapse" data-parent="#accordion" href="#group{{group.detail.id}}Overall">Overall</a> 
-                                                        </h3>
-                                                    </div>
-                                                    <div id="group{{group.detail.id}}Overall" class="panel-collapse collapse">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th rowspan="2">#</th>
+                                                                        <th rowspan="2" >No</th>
                                                                         <th rowspan="2">Candidate</th>
                                                                         {% for category in group.categories %}
-                                                                            <th colspan=2><center>{{category.detail.name}}</center></th>
+                                                                            <th colspan=2 width="auto">{{category.detail.name}}</th>
                                                                         {% endfor %}
                                                                         <th>Grand Total</th>
                                                                     </tr>
@@ -334,75 +123,79 @@
                                                                 <tbody>
                                                                     {% for overall_row in group.overall %}
                                                                         <tr>
-                                                                           <td>{{overall_row.detail.order}}</td>
+                                                                            <td>{{overall_row.detail.order}}</td>
                                                                             <td>{{overall_row.detail.name}}</td>
                                                                             {% for score_row in overall_row.scores %}
                                                                                 <td>{{score_row.score}}</td>
                                                                                 <td>{{score_row.percentage}}</td>
                                                                             {% endfor %}
-                                                                            <td>{{overall_row.total}}</td>
+                                                                            <td class="text-success"> <b> {{overall_row.total}}</b></td>
                                                                         </tr>
                                                                     {% endfor %}
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                     </div>
-                                                </div>-->
-                                        </div>
+                                                </div> -->
+                                                
+                                            </div>
+                                        {% endfor %}
                                     </div>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+                                   
+                                </div>
+                            {% endif %}
+
+                        </div>
                     </div>
-                    <!-- /.col-lg-12 -->
                 </form>
-                <div id="modal-picture"></div>
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /#page-wrapper -->
-
+            </article>
+        {% endblock %}
     </div>
-    <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="/static/frontend/js/jquery.js"></script>
-    <script src="/static/jquery_dialog/jquery-ui.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/static/frontend/js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="/static/frontend/js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <!-- DataTables JavaScript -->
-    <script src="/static/frontend/js/plugins/dataTables/jquery.dataTables.js"></script>
-    <script src="/static/frontend/js/plugins/dataTables/dataTables.bootstrap.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="/static/frontend/js/sb-admin-2.js"></script>
     
+{% endblock %}
+
+{% block modals %}
+     <!-- The Modal -->
+     <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="" alt="" class="img-modal">
+                    <h2 class="text-secondary text-center mt-3 img-name"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
     <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-                "responsive": true,
-                "paging": false,
-                "searching": false,
-                "bInfo": false
-        });
-        $('.participant_picture').click(function(event){
-            event.preventDefault();
-            $('#modal-picture').html('<center><h2>'+$(this).text()+'</h2><img src="'+$(this).attr('href')+'" height="400" /></center>').dialog({modal:true, height: 600, width: 800});
-            return false;
-        });
+        $(document).ready(function () {
 
-        $('body').click(function(){
-            if( $('#modal-picture').dialog("isOpen") ) {
-                $('#modal-picture').dialog("close")
-            }
+            $('.img-link').click(function () {
+                var media = $(this).find('img').attr('src');
+                var participant = $(this).find('span').text();
+
+                $(".img-modal").attr('src', media).addClass('img-thumbnail');
+                $(".img-name").html(participant);
+            });
+
+            $('.collapse')
+                .on('shown.bs.collapse', function() {
+                    $(this)
+                        .parent()
+                        .find(".fa-plus")
+                        .removeClass("fa-plus")
+                        .addClass("fa-minus");
+                })
+                .on('hidden.bs.collapse', function() {
+                    $(this)
+                        .parent()
+                        .find(".fa-minus")
+                        .removeClass("fa-minus")
+                        .addClass("fa-plus");
+                });
         });
-    });
+        
     </script>
-</body>
-
-</html>
+{% endblock %}

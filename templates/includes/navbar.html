@@ -16,7 +16,11 @@
             <li class="nav-item">
                 {% if user.is_authenticated %}
                     <form class="form-inline" action="{% url 'logout' %}">
-                        <button class="btn btn-outline-light" type="submit" data-toggle="tooltip" data-placement="bottom" title="Logout"> Sign out </button>
+                        {% if user.is_superuser %}
+                            <button class="btn btn-outline-light" type="submit" data-toggle="tooltip" data-placement="bottom" title="Logout"> Sign out | Admin </button>
+                        {% else %}
+                            <button class="btn btn-outline-light" type="submit" data-toggle="tooltip" data-placement="bottom" title="Logout"> Sign out </button>
+                        {% endif %}
                     </form>
                 {% else %}
                     <form class="form-inline" action="{% url 'login' %}">

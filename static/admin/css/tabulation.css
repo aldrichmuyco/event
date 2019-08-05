@@ -28,12 +28,12 @@
     padding: 10px;
 }
 .nav-link {
-    width:100px !important;
+    width:auto !important;
     text-align: center;
     color: gray;
 }
 .nav-link:hover {
-    color: #3a3a3a;
+    color: #2e2e2e;
 }
 .nav-link.active {
     background-color: transparent !important;
@@ -41,6 +41,6 @@
     color: #e27a60 !important;
 }
 .img-data {
-    width: auto;
+    width: 40px;
     height: 40px;
 }

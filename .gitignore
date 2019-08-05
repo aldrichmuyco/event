@@ -12,3 +12,4 @@ events/migrations/*.py
 pageant/migrations/*.py
 !pageant/migrations/__init__.py
 .env
+media/profile/

@@ -10,6 +10,7 @@ from pageant.models import Pageant, CriteriaCategory, Criteria, ParticipantGroup
 from django.db.models import Avg, Sum
 
 # Create your views here.
+@login_required(login_url='/login')
 def pageant(request, pageant_id):
     pageant_details = get_object_or_404(Pageant, pk=pageant_id)
     category_list_main = []
@@ -71,6 +72,7 @@ def pageant(request, pageant_id):
     # print template
     return render_to_response(template, details, context_instance=RequestContext(request))
 
+@login_required(login_url='/login')
 def all_ratings(request, pageant_id,group_id):
     pageant_details = get_object_or_404(Pageant, pk=pageant_id)
     category_list_main = []

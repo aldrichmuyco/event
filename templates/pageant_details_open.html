@@ -53,22 +53,22 @@
                                                     </div>
 
                                                     <div class="collapse show" id="body{{category.detail.id}}">
-                                                        <div class="card-body m-0 p-0">
+                                                        <div class="card-body m-0 p-0 table-responsive">
                                                             <table class="table table-hover table-bordered text-secondary m-0">
-                                                                <thead class="">
+                                                                <thead class="text-center">
                                                                     <tr>
-                                                                        <th width="5%">No</th>
-                                                                        <th width="25%">Candidate</th>
+                                                                        <th width="auto">No</th>
+                                                                        <th width="20%">Candidate</th>
                                                                         {% for criteria_row in categories.0.criteria %}
-                                                                            <th width="auto">{{criteria_row.name}} ({{criteria_row.weight}})%</th>
+                                                                            <th width="auto">{{criteria_row.name}} <br> ({{criteria_row.weight}})%</th>
                                                                         {% endfor %}
-                                                                        <th width="10%">Total (100%)</th>
+                                                                        <th width="10%">Total <br> (100%)</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     {% for participant in category.participants %}
                                                                         <tr>
-                                                                            <td>{{participant.detail.order}}</td>
+                                                                            <td class="text-center" >{{participant.detail.order}}</td>
                                                                             <td>
                                                                                 {% if participant.detail.photo %}
                                                                                     <div class="img-link" data-toggle="modal" data-target="#myModal">
@@ -83,7 +83,7 @@
                                                                             {% for rating_row in participant.rating %}
                                                                                 <td> {{rating_row.score|default:"---"}} </td>
                                                                             {% endfor %}
-                                                                            <td class="text-success"> <b>{{participant.total}}</b> </td>
+                                                                            <td class="text-success text-center"> <b>{{participant.total}}</b> </td>
                                                                         </tr>
                                                                     {% endfor %}                                                                    
                                                                 </tbody>

@@ -19,8 +19,7 @@ def is_users_event(request, event_id):
 @login_required(login_url='/login')
 def home(request):
     events = Event.objects.all().order_by('is_closed', '-id')
-    #pageants = Pageant.objects.filter(is_closed=False).order_by('is_closed', 'id')
-    pageants = Pageant.objects.all().order_by('is_closed', 'id')
+    pageants = Pageant.objects.filter(is_closed=False).order_by('is_closed', 'id')
     return render_to_response('index.html', {'events': events, 'pageants': pageants}, context_instance=RequestContext(request))
 
 @requires_csrf_token

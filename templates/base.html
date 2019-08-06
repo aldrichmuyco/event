@@ -15,8 +15,9 @@
         <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 
         <!-- CSS -->
-        <link href="{% static 'frontend/bootstrap4/css/bootstrap.min.css' %}" rel="stylesheet"> <!-- Bootsrtrap -->
-        <link href="{% static 'frontend/fontawesome5/css/all.min.css' %}" rel="stylesheet" type="text/css"> <!-- Fontawesome -->
+        <link href="{% static 'lib/bootstrap4/css/bootstrap.min.css' %}" rel="stylesheet"> <!-- Bootsrtrap -->
+        <link href="{% static 'lib/DataTables/datatables.min.css' %}" rel="stylesheet"> <!-- DataTables -->
+        <link href="{% static 'lib/fontawesome5/css/all.min.css' %}" rel="stylesheet" type="text/css"> <!-- Fontawesome -->
 
         <!-- Custom CSS -->
         <link href="{% static 'admin/css/main.css' %}" rel="stylesheet" type="text/css"> 
@@ -46,9 +47,11 @@
 
 
         <!-- jQuery -->
-        <script src="{% static 'frontend/js/jquery.js' %}"></script>
+        <script src="{% static 'lib/jquery3/js/jquery.min.js' %}"></script>
         <!-- Bootstrap Core JavaScript -->
-        <script src="{% static 'frontend/bootstrap4/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'lib/bootstrap4/js/bootstrap.min.js' %}"></script>
+        <!-- DataTables JavaScript -->
+        <script src="{% static 'lib/DataTables/datatables.min.js' %}"></script>
         <!-- Custom Script -->
         {% block script %} {% endblock %}
 

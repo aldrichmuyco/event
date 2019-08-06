@@ -2,7 +2,7 @@
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #e9ecef;
+    background-color: #fafafa;
 }
 
 .bg-primary {background-color: #3a97fa !important;}
@@ -13,6 +13,7 @@
 .bg-warning {background-color: #ffd574 !important;}
 .bg-light {background-color: #f8f9fa !important;}
 .bg-orange {background-color: #e27a60 !important;}
+.bg-none {background-color: transparent !important;}
 
 .bg-light-primary {background-color: #90c5fd !important;}
 .bg-light-secondary {background-color: #a0aebb !important;}

@@ -41,6 +41,13 @@
     color: #e27a60 !important;
 }
 .img-data {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
+}
+.img-link {
+    cursor: pointer;
+}
+.table tbody td {
+    padding: 10px;
+    vertical-align: baseline;
 }

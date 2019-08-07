@@ -7,7 +7,7 @@ class Pageant(models.Model):
     is_closed = models.BooleanField(default=False, null=False)
 
     class Meta:
-        verbose_name = 'Pageant'
+        verbose_name = 'Event'
 
     def __str__(self):
         return self.title

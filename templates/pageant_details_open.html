@@ -38,10 +38,10 @@
                                 </ul>
                                 <div class="tab-content">
                                     {% for group in groups %}
-                                        <div class="tab-pane container-fluid p-3 {% if forloop.first %} active {% endif %}" id="group{{group.detail.id}}">   
+                                        <div class=" container-fluid p-3 tab-pane fade {% if forloop.first %} show active {% endif %}" id="group{{group.detail.id}}">   
                                             <div class="clearfix">
                                                 <a href="/pageant_overall/{{details.id}}/{{group.detail.id}}" target="_blank">
-                                                    <button class="btn btn-default btn-outline-secondary float-right mr-2">Overall Rating</button> 
+                                                    <button class="btn btn-default btn-outline-secondary float-right mr-2"> <i class="fas fa-poll-h mr-1"></i> Overall Rating</button> 
                                                 </a>
                                             </div>
                                             {% for category in group.categories %}
@@ -81,9 +81,11 @@
                                                                                 {% endif %} 
                                                                             </td>
                                                                             {% for rating_row in participant.rating %}
-                                                                                <td> {{rating_row.score|default:"---"}} </td>
+                                                                                <td> 
+                                                                                    {% if rating_row.score %}  {{rating_row.score|floatformat:2}} {% else %} --- {% endif %}
+                                                                                </td>
                                                                             {% endfor %}
-                                                                            <td class="text-success text-center"> <b>{{participant.total}}</b> </td>
+                                                                            <td class="text-success text-center"> <b>{{participant.total|floatformat:2}}</b> </td>
                                                                         </tr>
                                                                     {% endfor %}                                                                    
                                                                 </tbody>

@@ -50,9 +50,9 @@
                                     </ul>
                                     <div class="tab-content">
                                         {% for group in groups %}
-                                            <div class="tab-pane container-fluid p-3 {% if forloop.first %} active {% endif %}" id="group{{group.detail.id}}">   
+                                            <div class=" container-fluid p-3 tab-pane fade {% if forloop.first %} show active {% endif %}" id="group{{group.detail.id}}">  
                                                 <div class="clearfix">
-                                                    <button class="btn btn-default btn-outline-success float-right">Save Rating</button> 
+                                                    <button class="btn btn-default btn-outline-success float-right"><i class="fas fa-save mr-2"></i>Save Rating</button> 
                                                 </div>
                                                 {% for category in group.categories %}
                                                     <div class="card card-criteria mt-4 mb-0">
@@ -70,7 +70,7 @@
                                                                             <th width="auto">No</th>
                                                                             <th width="20%">Candidate</th>
                                                                             {% for criteria_row in categories.0.criteria %}
-                                                                                <th width="auto">{{criteria_row.name}} <br> ({{criteria_row.weight}})%</th>
+                                                                                <th width="auto">{{criteria_row.name}} <br> ({{criteria_row.weight}}%)</th>
                                                                             {% endfor %}
                                                                             <th width="10%">Total <br> (100%)</th>
                                                                         </tr>
@@ -95,6 +95,7 @@
                                                                                         <input type="number" class="form-control" placeholder="(0 - {{rating_row.max}})" step="any" min="0" max="{{rating_row.max}}" name="{{participant.detail.id}}-{{rating_row.id}}" value="{{rating_row.score}}">
                                                                                     </td>
                                                                                 {% endfor %}
+                                                                                
                                                                                 <td class="text-success text-center"> <b> {{participant.total}}</b> </td>
                                                                             </tr>
                                                                         {% endfor %}

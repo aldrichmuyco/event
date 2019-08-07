@@ -17,15 +17,16 @@
                 {% if user.is_authenticated %}
                     <form class="form-inline" action="{% url 'logout' %}">
                         {% if user.is_superuser %}
-                            <button class="btn btn-outline-light" type="submit" data-toggle="tooltip" data-placement="bottom" title="Logout"> Sign out | Admin </button>
+                            <span class="float-right mr-3 text-light"> Admin </span>
+                            <button class="btn btn-outline-light" type="submit" data-toggle="tooltip" data-placement="bottom" title="Logout"> <i class="fas fa-sign-out-alt"></i> Sign out </button>
                         {% else %}
                             <span class="float-right mr-3 text-light"> {{user.get_full_name}}</span>
-                            <button class="btn btn-outline-light" type="submit" data-toggle="tooltip" data-placement="bottom" title="Logout"> Sign out </button>
+                            <button class="btn btn-outline-light" type="submit" data-toggle="tooltip" data-placement="bottom" title="Logout"> <i class="fas fa-sign-out-alt"></i> Sign out </button>
                         {% endif %}
                     </form>
                 {% else %}
                     <form class="form-inline" action="{% url 'login' %}">
-                        <button class="btn btn-light" type="submit" formaction="{% url 'login' %}"> Sign in </button>
+                        <button class="btn btn-light" type="submit" formaction="{% url 'login' %}"> <i class="fas fa-sign-in-alt"></i>Sign in </button>
                     </form>
                 {% endif %}
             </li>

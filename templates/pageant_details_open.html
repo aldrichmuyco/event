@@ -54,7 +54,7 @@
 
                                                     <div class="collapse show" id="body{{category.detail.id}}">
                                                         <div class="card-body m-0 p-0 table-responsive">
-                                                            <table class="table table-hover table-bordered text-secondary m-0">
+                                                            <table class="table table-hover table-bordered text-secondary m-0" id="table-admin">
                                                                 <thead class="text-center">
                                                                     <tr>
                                                                         <th width="auto">No</th>
@@ -76,8 +76,9 @@
                                                                                         <span> {{participant.detail.name}} </span> 
                                                                                     </div>
                                                                                 {% else %}
-                                                                                    <img src="/media/default.png" alt="none" class="img-data mr-2">
-                                                                                    <span class="mt-2"> {{participant.detail.name}} </span>
+                                                                                    <!-- <img src="/media/default.png" alt="none" class="img-data mr-2">
+                                                                                    <span class="mt-2"> {{participant.detail.name}} </span> -->
+                                                                                    {{participant.detail.name}}
                                                                                 {% endif %} 
                                                                             </td>
                                                                             {% for rating_row in participant.rating %}
@@ -172,6 +173,13 @@
 {% block script %}
     <script>
         $(document).ready(function () {
+
+            $('#table-admin').DataTable({
+                resposive: true,
+                searching: false,
+                paging: false,
+                bInfo: false,
+            });
 
             $('.img-link').click(function () {
                 var media = $(this).find('img').attr('src');

@@ -86,8 +86,9 @@
                                                                                             <span> {{participant.detail.name}} </span> 
                                                                                         </div>
                                                                                     {% else %}
-                                                                                        <img src="/media/default.png" alt="none" class="img-data mr-2">
-                                                                                        <span class="mt-2"> {{participant.detail.name}} </span>
+                                                                                        <!-- <img src="/media/default.png" alt="none" class="img-data mr-2">
+                                                                                        <span class="mt-2"> {{participant.detail.name}} </span> -->
+                                                                                        {{participant.detail.name}}
                                                                                     {% endif %} 
                                                                                 </td>
                                                                                 {% for rating_row in participant.rating %}

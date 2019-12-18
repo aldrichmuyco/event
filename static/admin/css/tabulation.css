@@ -12,7 +12,7 @@
 }
 .card-criteria {
     border:none;
-    border-left: 4px solid #e27a60;
+    border-left: 4px solid #17a2b8;
     -webkit-box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
     box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
@@ -37,8 +37,8 @@
 }
 .nav-link.active {
     background-color: transparent !important;
-    border-bottom: 3px solid #e27a60 !important;
-    color: #e27a60 !important;
+    border-bottom: 3px solid #17a2b8 !important;
+    color: #17a2b8 !important;
 }
 .img-data {
     width: 30px;

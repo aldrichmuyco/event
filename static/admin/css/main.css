@@ -51,7 +51,7 @@
 .btn-orange:hover {background-color: #e46b4d !important; border: none;}
 
 .navbar-custom {
-    background-color: #e27a60;
+    background-color: #178697;
     -webkit-box-shadow: 0px 0px 9px -5px rgb(56, 51, 51);
     -moz-box-shadow: 0px 0px 9px -5px rgba(0,0,0,1);
     box-shadow: 0px 0px 9px -5px rgba(0,0,0,1);
@@ -73,7 +73,7 @@
 .card-custom {
     transition: transform .2s; /* Animation */
     border: none;
-    border-left: 4px solid #e27a60;
+    border-left: 4px solid #17a2b8;
     -webkit-box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
     -moz-box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
     box-shadow: 0px 0px 6px -3px rgba(0,0,0,0.5);
@@ -86,7 +86,7 @@
     box-shadow: 0px 0px 12px -3px rgba(255, 81, 0, 0.5);
 }
 .card-custom .card-body-icon {
-    filter: blur(2  px);
+    filter: blur(2px);
     transition: transform .5s ease;
 }
 .card-custom:hover .card-body-icon {

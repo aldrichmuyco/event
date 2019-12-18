@@ -22,7 +22,7 @@ body {
     font-size: 16px;
 }
 .form-control:focus {
-    border-color: #e27a60;
+    border-color: #17a2b8;
     box-shadow: none;
     outline: 0 none;
 }

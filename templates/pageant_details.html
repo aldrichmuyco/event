@@ -4,213 +4,214 @@
 {% block title %} Tabulation {% endblock %}
 
 {% block style %} 
-    <link href="{% static 'admin/css/tabulation.css' %}" rel="stylesheet" type="text/css"> 
+   <link href="{% static 'admin/css/tabulation.css' %}" rel="stylesheet" type="text/css"> 
 {% endblock %}
 
 {% block content %} 
 
-    {% block navbar %} 
-        {% include 'includes/navbar.html' %}  
-    {% endblock %}
-    
-    <div class="container-fluid pl-4 pr-4">
-        {% block section %}
-            <section class="mt-5">
-                <h1 class="text-secondary">{{ details.title }}</h1> 
-                <!-- <p class="text-secondary">Hospital Week 2019</p>  -->
-            </section>
-        {% endblock %}
-        
-        {% block article %} 
-            <article class="mt-4 mb-5">
-                <h6 class="text-uppercase text-secondary mb-4"> Tabulation Panel </h6>
-                <form action="/pageant_process/{{details.id}}" method="POST">   
+	{% block navbar %} 
+		{% include 'includes/navbar.html' %}  
+	{% endblock %}
+	
+	<div class="container-fluid pl-4 pr-4">
+		{% block section %}
+			<section class="mt-5">
+				<h1 class="text-secondary">{{ details.title }}</h1> 
+				<!-- <p class="text-secondary">Hospital Week 2019</p>  -->
+			</section>
+		{% endblock %}
+		
+		{% block article %} 
+         <article class="mt-4 mb-5">
+            <h6 class="text-uppercase text-secondary mb-4"> Tabulation Panel </h6>
+            <form action="/pageant_process/{{details.id}}" method="POST">   
 
-                     <!-- Alerts -->
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-success alert-dissmissable fade show" role="alert">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                {{message}}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+            <!-- Alerts -->
+            {% if messages %}
+               {% for message in messages %}
+                  <div class="alert alert-success alert-dissmissable fade show" role="alert">
+                     <button type="button" class="close" data-dismiss="alert">&times;</button>
+                     {{message}}
+                  </div>
+               {% endfor %}
+            {% endif %}
 
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-md-12">
-                            {% if groups %} 
-                                <div class="mb-4">
-                                    <ul class="nav nav-tabs">
-                                        {% for group in groups %}
-                                            <li class="nav-item">
-                                                <a class="nav-link {% if forloop.first %} active {% endif %}" data-toggle="tab" href="#group{{group.detail.id}}" aria-expanded="true">{{group.detail.name}}</a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                    <div class="tab-content">
-                                        {% for group in groups %}
-                                            <div class=" container-fluid p-3 tab-pane fade {% if forloop.first %} show active {% endif %}" id="group{{group.detail.id}}">  
-                                                <div class="clearfix">
-                                                    <button class="btn btn-default btn-outline-success float-right"><i class="fas fa-save mr-2"></i>Save Rating</button> 
-                                                </div>
-                                                {% for category in group.categories %}
-                                                    <div class="card card-criteria mt-4 mb-0">
-                                                        
-                                                        <div class="card-header clearfix">
-                                                            <span class="float-left text-secondary"> <b>{{category.detail.name}} ({{category.detail.weight}}%)</b> </span>
-                                                            <a href="#body{{category.detail.id}}" data-toggle="collapse" class="float-right"><i class="fas fa-sm fa-minus text-secondary"></i></a>
-                                                        </div>
+               {% csrf_token %}
+               <div class="row">
+                  <div class="col-md-12">
+                     {% if groups %} 
+                        <div class="mb-4">
+                           <ul class="nav nav-tabs">
+                              {% for group in groups %}
+                                 <li class="nav-item">
+                                    <a class="nav-link {% if forloop.first %} active {% endif %}" data-toggle="tab" href="#group{{group.detail.id}}" aria-expanded="true">{{group.detail.name}}</a>
+                                 </li>
+                              {% endfor %}
+                           </ul>
 
-                                                        <div class="collapse show" id="body{{category.detail.id}}">
-                                                            <div class="card-body m-0 p-0 table-responsive">
-                                                                <table class="table table-hover table-bordered text-secondary m-0">
-                                                                    <thead class="text-center">
-                                                                        <tr>
-                                                                            <th width="auto">No</th>
-                                                                            <th width="20%">Candidate</th>
-                                                                            {% for criteria_row in categories.0.criteria %}
-                                                                                <th width="auto">{{criteria_row.name}} <br> ({{criteria_row.weight}}%)</th>
-                                                                            {% endfor %}
-                                                                            <th width="10%">Total <br> (100%)</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        {% for participant in category.participants %}
-                                                                            <tr>
-                                                                                <td class="text-center">{{participant.detail.order}}</td>
-                                                                                <td>
-                                                                                    {% if participant.detail.photo %}
-                                                                                        <div class="img-link" data-toggle="modal" data-target="#myModal">
-                                                                                            <img src="/media/{{participant.detail.photo}}" alt="none" class="img-data mr-2" >
-                                                                                            <span> {{participant.detail.name}} </span> 
-                                                                                        </div>
-                                                                                    {% else %}
-                                                                                        <!-- <img src="/media/default.png" alt="none" class="img-data mr-2">
-                                                                                        <span class="mt-2"> {{participant.detail.name}} </span> -->
-                                                                                        {{participant.detail.name}}
-                                                                                    {% endif %} 
-                                                                                </td>
-                                                                                {% for rating_row in participant.rating %}
-                                                                                    <td>                             
-                                                                                        <input type="number" class="form-control" placeholder="(0 - {{rating_row.max}})" step="any" min="0" max="{{rating_row.max}}" name="{{participant.detail.id}}-{{rating_row.id}}" value="{{rating_row.score}}">
-                                                                                    </td>
-                                                                                {% endfor %}
-                                                                                
-                                                                                <td class="text-success text-center"> <b> {{participant.total}}</b> </td>
-                                                                            </tr>
-                                                                        {% endfor %}
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                    </div>
-                                                {% endfor %}
-
-                                                <!-- <div class="card card-criteria mt-4 mb-0">
-                                                    <div class="card-header clearfix">
-                                                        <span class="float-left"> <b>Overall</b> </span>
-                                                        <a href="#body{{category.detail.id}}" data-toggle="collapse" class="float-right"><i class="fas fa-sm fa-plus text-secondary"></i></a>
-                                                    </div>
-                                                    <div class="collapse" id="body{{category.detail.id}}">
-                                                        <div class="card-body m-0 p-0">
-                                                            <table class="table table-bordered m-0 text-secondary">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th rowspan="2" >No</th>
-                                                                        <th rowspan="2">Candidate</th>
-                                                                        {% for category in group.categories %}
-                                                                            <th colspan=2 width="auto">{{category.detail.name}}</th>
-                                                                        {% endfor %}
-                                                                        <th>Grand Total</th>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {% for category in group.categories %}
-                                                                            <th>Score</th>
-                                                                            <th>Weight ({{category.detail.weight}} %)</th>
-                                                                        {% endfor %}
-                                                                        <th>100%</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {% for overall_row in group.overall %}
-                                                                        <tr>
-                                                                            <td>{{overall_row.detail.order}}</td>
-                                                                            <td>{{overall_row.detail.name}}</td>
-                                                                            {% for score_row in overall_row.scores %}
-                                                                                <td>{{score_row.score}}</td>
-                                                                                <td>{{score_row.percentage}}</td>
-                                                                            {% endfor %}
-                                                                            <td class="text-success"> <b> {{overall_row.total}}</b></td>
-                                                                        </tr>
-                                                                    {% endfor %}
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-                                                
-                                            </div>
-                                        {% endfor %}
+                           <div class="tab-content">
+                              {% for group in groups %}
+                                 <div class=" container-fluid p-3 tab-pane fade {% if forloop.first %} show active {% endif %}" id="group{{group.detail.id}}">  
+                                    <div class="clearfix">
+                                       <button class="btn btn-default btn-outline-success float-right"><i class="fas fa-save mr-2"></i>Save Rating</button> 
                                     </div>
-                                   
-                                </div>
-                            {% endif %}
+                                       
+                                    {% for category in group.categories %}
+                                       <div class="card card-criteria mt-4 mb-0">
+                                          
+                                          <div class="card-header clearfix">
+                                             <span class="float-left text-secondary"> <b>{{category.detail.name}} ({{category.detail.weight}}%)</b> </span>
+                                             <a href="#body{{category.detail.id}}" data-toggle="collapse" class="float-right"><i class="fas fa-sm fa-minus text-secondary"></i></a>
+                                          </div>
 
+                                          <div class="collapse show" id="body{{category.detail.id}}">
+                                             <div class="card-body m-0 p-0 table-responsive">
+                                                <table class="table table-hover table-bordered text-secondary m-0">
+                                                   <thead class="text-center">
+                                                      <tr>
+                                                         <th width="auto">No</th>
+                                                         <th width="20%">Candidate</th>
+                                                         {% for criteria_row in categories.0.criteria %}
+                                                            <th width="auto">{{criteria_row.name}} <br> ({{criteria_row.weight}}%)</th>
+                                                         {% endfor %}
+                                                         <th width="10%">Total <br> (100%)</th>
+                                                      </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                      {% for participant in category.participants %}
+                                                         <tr>
+                                                            <td class="text-center">{{participant.detail.order}}</td>
+                                                            <td>
+                                                               {% if participant.detail.photo %}
+                                                                  <div class="img-link" data-toggle="modal" data-target="#myModal">
+                                                                     <img src="/media/{{participant.detail.photo}}" alt="none" class="img-data mr-2" >
+                                                                     <span> {{participant.detail.name}} </span> 
+                                                                  </div>
+                                                               {% else %}
+                                                                  <!-- <img src="/media/default.png" alt="none" class="img-data mr-2">
+                                                                  <span class="mt-2"> {{participant.detail.name}} </span> -->
+                                                                  {{participant.detail.name}}
+                                                               {% endif %} 
+                                                            </td>
+                                                            {% for rating_row in participant.rating %}
+                                                               <td>                             
+                                                                  <input type="number" class="form-control" placeholder="(0 - {{rating_row.max}})" step="any" min="0" max="{{rating_row.max}}" name="{{participant.detail.id}}-{{rating_row.id}}" value="{{rating_row.score}}">
+                                                               </td>
+                                                            {% endfor %}
+                                                            
+                                                            <td class="text-success text-center"> <b> {{participant.total}}</b> </td>
+                                                         </tr>
+                                                      {% endfor %}
+                                                   </tbody>
+                                                </table>
+                                             </div>
+                                          </div>
+                                          
+                                       </div>
+                                    {% endfor %}
+
+
+                                    <!-- <div class="card card-criteria mt-4 mb-0">
+                                          <div class="card-header clearfix">
+                                             <span class="float-left"> <b>Overall</b> </span>
+                                             <a href="#body{{category.detail.id}}" data-toggle="collapse" class="float-right"><i class="fas fa-sm fa-plus text-secondary"></i></a>
+                                          </div>
+                                          <div class="collapse" id="body{{category.detail.id}}">
+                                             <div class="card-body m-0 p-0">
+                                                <table class="table table-bordered m-0 text-secondary">
+                                                   <thead>
+                                                      <tr>
+                                                         <th rowspan="2" >No</th>
+                                                         <th rowspan="2">Candidate</th>
+                                                         {% for category in group.categories %}
+                                                                  <th colspan=2 width="auto">{{category.detail.name}}</th>
+                                                         {% endfor %}
+                                                         <th>Grand Total</th>
+                                                      </tr>
+                                                      <tr>
+                                                         {% for category in group.categories %}
+                                                                  <th>Score</th>
+                                                                  <th>Weight ({{category.detail.weight}} %)</th>
+                                                         {% endfor %}
+                                                         <th>100%</th>
+                                                      </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                      {% for overall_row in group.overall %}
+                                                         <tr>
+                                                            <td>{{overall_row.detail.order}}</td>
+                                                            <td>{{overall_row.detail.name}}</td>
+                                                            {% for score_row in overall_row.scores %}
+                                                               <td>{{score_row.score}}</td>
+                                                               <td>{{score_row.percentage}}</td>
+                                                            {% endfor %}
+                                                            <td class="text-success"> <b> {{overall_row.total}}</b></td>
+                                                         </tr>
+                                                      {% endfor %}
+                                                   </tbody>
+                                                </table>
+                                             </div>
+                                          </div>
+                                    </div> -->
+                                       
+                                 </div>
+                              {% endfor %}
+                           </div>
+                              
                         </div>
-                    </div>
-                </form>
-            </article>                    
-        {% endblock %}
-    </div>
+                     {% endif %}
+                  </div>
+               </div>
+            </form>
+         </article>                    
+		{% endblock %}
+	</div>
     
 {% endblock %}
 
 {% block modals %}
-     <!-- The Modal -->
-     <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img src="" alt="" class="img-modal">
-                    <h2 class="text-secondary text-center mt-3 img-name"></h2>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- The Modal -->
+	<div class="modal fade" id="myModal">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-body">
+					<img src="" alt="" class="img-modal">
+					<h2 class="text-secondary text-center mt-3 img-name"></h2>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block script %}
-    <script>
-        $(document).ready(function () {
+	<script>
+		$(document).ready(function () {
 
-            $('.alert').alert();
-            
-            $('.img-link').click(function () {
-                var media = $(this).find('img').attr('src');
-                var participant = $(this).find('span').text();
+			$('.alert').alert();
+			
+			$('.img-link').click(function () {
+				var media = $(this).find('img').attr('src');
+				var participant = $(this).find('span').text();
 
-                $(".img-modal").attr('src', media).addClass('img-thumbnail');
-                $(".img-name").html(participant);
-            });
+				$(".img-modal").attr('src', media).addClass('img-thumbnail');
+				$(".img-name").html(participant);
+			});
 
-            $('.collapse')
-                .on('shown.bs.collapse', function() {
-                    $(this)
-                        .parent()
-                        .find(".fa-plus")
-                        .removeClass("fa-plus")
-                        .addClass("fa-minus");
-                })
-                .on('hidden.bs.collapse', function() {
-                    $(this)
-                        .parent()
-                        .find(".fa-minus")
-                        .removeClass("fa-minus")
-                        .addClass("fa-plus");
-                });
-        });
-        
-    </script>
+			$('.collapse')
+				.on('shown.bs.collapse', function() {
+					$(this)
+						.parent()
+						.find(".fa-plus")
+						.removeClass("fa-plus")
+						.addClass("fa-minus");
+				})
+				.on('hidden.bs.collapse', function() {
+					$(this)
+						.parent()
+						.find(".fa-minus")
+						.removeClass("fa-minus")
+						.addClass("fa-plus");
+				});
+		});
+	</script>
 {% endblock %}

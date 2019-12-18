@@ -33,7 +33,6 @@ class Criteria(models.Model):
     def __str__(self):
         return self.name
 
-
 class ParticipantGroup(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     pageant  = models.ForeignKey(Pageant, verbose_name='Event')
